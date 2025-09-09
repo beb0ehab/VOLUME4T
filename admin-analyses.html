@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة التحليلات - لوحة التحكم</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .glass-card {
+            background: rgba(25, 28, 36, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .tab-active, .sub-tab-active {
+            background-color: #2563eb; /* blue-600 */
+            color: white;
+        }
+        .tab-inactive, .sub-tab-inactive {
+            background-color: transparent;
+            color: #9ca3af; /* gray-400 */
+        }
+        .progress-bar-fill {
+            transition: width 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-200">
+    
+    <div id="loading-spinner" class="min-h-screen flex items-center justify-center">
+        <i class="fas fa-spinner fa-spin text-teal-400 text-5xl"></i>
+    </div>
+
+    <div id="admin-content" class="hidden min-h-screen">
+        <!-- Header -->
+        <header class="bg-black/30 backdrop-blur-xl sticky top-0 z-50 border-b border-gray-700/50">
+            <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+                <h1 id="page-title" class="text-2xl font-bold text-white">إدارة التحليلات</h1>
+                <a href="dashboard.html" class="flex items-center text-gray-300 hover:text-white transition-colors bg-white/5 hover:bg-white/10 px-4 py-2 rounded-full">
+                    <span>العودة للوحة التحكم</span>
+                    <i class="fas fa-arrow-left mr-2"></i>
+                </a>
+            </div>
+        </header>
+
+        <main class="container mx-auto px-6 py-12">
+            <section class="glass-card p-8 rounded-2xl mb-12">
+                <h2 class="text-2xl font-bold text-white mb-6">إضافة تحليل/نتيجة جديدة</h2>
+                <form id="add-result-form" class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div>
+                        <label class="font-bold mb-2 block">الفئة الرئيسية</label>
+                        <select id="main-category" name="mainCategory" class="w-full bg-gray-900/50 text-white rounded-lg p-3 border border-gray-700" required>
+                            <option value="modaraba">مضاربة</option>
+                            <option value="swing">Swing</option>
+                            <option value="investment">استثمار</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="font-bold mb-2 block">الفئة الفرعية</label>
+                        <select id="sub-category" name="subCategory" class="w-full bg-gray-900/50 text-white rounded-lg p-3 border border-gray-700" required></select>
+                    </div>
+                    <div>
+                        <label class="font-bold mb-2 block">الرمز</label>
+                        <input type="text" name="symbol" placeholder="AAPL" class="w-full bg-gray-900/50 text-white rounded-lg p-3 border border-gray-700" required>
+                    </div>
+                    <div>
+                        <label class="font-bold mb-2 block">تاريخ الدخول</label>
+                        <input type="date" name="entryDate" class="w-full bg-gray-900/50 text-white rounded-lg p-3 border border-gray-700" required>
+                    </div>
+                    <div>
+                        <label class="font-bold mb-2 block">نقطة الدخول</label>
+                        <input type="text" name="entryPrice" placeholder="150.25" class="w-full bg-gray-900/50 text-white rounded-lg p-3 border border-gray-700">
+                    </div>
+                    <div>
+                        <label class="font-bold mb-2 block">الهدف الأول</label>
+                        <input type="text" name="target1" placeholder="155.50" class="w-full bg-gray-900/50 text-white rounded-lg p-3 border border-gray-700">
+                    </div>
+                    <div>
+                        <label class="font-bold mb-2 block">الهدف الثاني</label>
+                        <input type="text" name="target2" placeholder="160.00" class="w-full bg-gray-900/50 text-white rounded-lg p-3 border border-gray-700">
+                    </div>
+                    <div>
+                        <label class="font-bold mb-2 block">النتيجة</label>
+                        <input type="text" name="resultValue" placeholder="+7.66%" class="w-full bg-gray-900/50 text-white rounded-lg p-3 border border-gray-700" required>
+                    </div>
+                    <div>
+                        <label class="font-bold mb-2 block">الحالة</label>
+                        <select name="status" class="w-full bg-gray-900/50 text-white rounded-lg p-3 border border-gray-700" required>
+                            <option value="ربح">ربح</option>
+                            <option value="خسارة">خسارة</option>
+                        </select>
+                    </div>
+                    <div class="md:col-span-3">
+                        <label class="font-bold mb-2 block">صورة الإثبات (اختياري)</label>
+                        <input type="file" name="proofImage" accept="image/*" class="w-full bg-gray-900/50 text-white rounded-lg p-2 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-50 file:text-teal-700 hover:file:bg-teal-100 border border-gray-700">
+                    </div>
+                     <div class="md:col-span-4">
+                        <label class="font-bold mb-2 block">ملخص النتائج (النص الخارجي للزائر)</label>
+                        <textarea name="summaryText" rows="3" placeholder="مثال: تم طرح توصيات لـ 5 أسهم..." class="w-full bg-gray-900/50 text-white rounded-lg p-3 border border-gray-700"></textarea>
+                    </div>
+                    <div class="md:col-span-4">
+                        <div id="progress-bar-container" class="hidden w-full bg-gray-600 rounded-full h-6 mb-4">
+                            <div id="progress-bar-fill" class="progress-bar-fill bg-teal-500 h-6 text-xs font-medium text-blue-100 text-center p-1 leading-none rounded-full" style="width: 0%">0%</div>
+                        </div>
+                        <button type="submit" id="submit-analysis-btn" class="w-full bg-blue-600 text-white font-bold rounded-full py-3 px-6 hover:bg-blue-700 transition-colors">
+                            إضافة النتيجة
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <section id="analyses-display-section">
+                <div class="mb-6 flex justify-center items-center flex-wrap gap-2 border-b border-gray-700 pb-4">
+                    <button data-main-category="modaraba" class="main-category-tab sub-tab-active text-lg font-bold py-2 px-5 rounded-md">مضاربة</button>
+                    <button data-main-category="swing" class="main-category-tab sub-tab-inactive text-lg font-bold py-2 px-5 rounded-md">Swing</button>
+                    <button data-main-category="investment" class="main-category-tab sub-tab-inactive text-lg font-bold py-2 px-5 rounded-md">استثمار</button>
+                </div>
+                
+                <div class="mb-8 flex flex-col md:flex-row gap-4 items-center">
+                    <div class="relative flex-grow w-full md:w-auto">
+                        <input type="text" id="search-input" placeholder="ابحث برمز السهم..." class="w-full bg-gray-800/50 text-white rounded-full py-3 px-5 focus:outline-none focus:ring-2 focus:ring-blue-500 border border-gray-700">
+                        <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"></i>
+                    </div>
+                    <div id="stats-container" class="glass-card p-4 rounded-lg flex items-center gap-6">
+                        <div class="text-center">
+                            <p class="text-sm text-gray-400">نسبة النجاح</p>
+                            <p id="win-rate" class="text-2xl font-bold text-green-400">0%</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-sm text-gray-400">إجمالي الصفقات</p>
+                            <p id="total-trades" class="text-2xl font-bold text-white">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="sub-category-content-area"></div>
+            </section>
+        </main>
+    </div>
+
+    <script type="module">
+        import { protectPage } from './auth-guard.js';
+        import { getFirestore, collection, doc, addDoc, onSnapshot, deleteDoc, query, where, orderBy } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+        import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-storage.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBkajwsO5ME11NravlECLJSlk4GN0xGbGE",
+            authDomain: "sco4mfortelegram.firebaseapp.com",
+            projectId: "sco4mfortelegram",
+            storageBucket: "sco4mfortelegram.appspot.com",
+            messagingSenderId: "72437321483",
+            appId: "1:72437321483:web:e89c4ff409f9c477605c0e",
+            measurementId: "G-0BZWRPSB76"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+        
+        const allAnalyses = []; 
+        
+        protectPage((user) => {
+            document.getElementById('loading-spinner').classList.add('hidden');
+            document.getElementById('admin-content').classList.remove('hidden');
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const market = urlParams.get('market');
+            
+            const pageTitle = document.getElementById('page-title');
+            if (market === 'saudi') {
+                pageTitle.textContent = 'إدارة تحليلات السوق السعودي';
+            } else if (market === 'american') {
+                pageTitle.textContent = 'إدارة تحليلات السوق الأمريكي';
+            }
+
+            const subCategories = {
+                modaraba: { daily: 'يومي', weekly: 'اسبوعي', monthly: 'شهري' },
+                swing: { daily: 'يومي', weekly: 'اسبوعي', monthly: 'شهري' },
+                investment: { monthly: 'شهري' }
+            };
+
+            const mainCategorySelect = document.getElementById('main-category');
+            const subCategorySelect = document.getElementById('sub-category');
+            const addResultForm = document.getElementById('add-result-form');
+            const analysesDisplaySection = document.getElementById('analyses-display-section');
+            const searchInput = document.getElementById('search-input');
+            const submitBtn = document.getElementById('submit-analysis-btn');
+            const progressBarContainer = document.getElementById('progress-bar-container');
+            const progressBarFill = document.getElementById('progress-bar-fill');
+
+            function updateSubCategoryDropdown() {
+                const selectedMain = mainCategorySelect.value;
+                subCategorySelect.innerHTML = '';
+                for (const key in subCategories[selectedMain]) {
+                    const option = document.createElement('option');
+                    option.value = key;
+                    option.textContent = subCategories[selectedMain][key];
+                    subCategorySelect.appendChild(option);
+                }
+            }
+
+            function buildAnalysesDisplay(mainCategory) {
+                const subCategoryContentArea = document.getElementById('sub-category-content-area');
+                const subs = subCategories[mainCategory];
+                let subTabsHTML = '<div class="flex justify-center flex-wrap gap-2 mb-8">';
+                Object.keys(subs).forEach((key, index) => {
+                    subTabsHTML += `<button data-sub-category="${key}" class="sub-category-tab ${index === 0 ? 'sub-tab-active' : 'sub-tab-inactive'} py-2 px-4 rounded-md">${subs[key]}</button>`;
+                });
+                subTabsHTML += '</div><div id="results-container-wrapper"></div>';
+                subCategoryContentArea.innerHTML = subTabsHTML;
+                renderFilteredAnalyses();
+            }
+
+            function renderFilteredAnalyses() {
+                const activeMain = document.querySelector('#analyses-display-section .main-category-tab.sub-tab-active')?.dataset.mainCategory;
+                const activeSub = document.querySelector('#analyses-display-section .sub-category-tab.sub-tab-active')?.dataset.subCategory;
+                const searchTerm = searchInput.value.toLowerCase();
+
+                if (!activeMain || !activeSub) return;
+
+                const wrapper = document.getElementById('results-container-wrapper');
+                let filtered = allAnalyses.filter(r => r.mainCategory === activeMain && r.subCategory === activeSub);
+                
+                if (searchTerm) {
+                    filtered = filtered.filter(r => r.symbol.toLowerCase().includes(searchTerm));
+                }
+
+                const winCount = filtered.filter(r => r.status === 'ربح').length;
+                const totalCount = filtered.length;
+                const winRate = totalCount > 0 ? ((winCount / totalCount) * 100).toFixed(0) : 0;
+                document.getElementById('win-rate').textContent = `${winRate}%`;
+                document.getElementById('total-trades').textContent = totalCount;
+                
+                if (filtered.length === 0) {
+                    wrapper.innerHTML = '<p class="text-center text-gray-400 py-8">لا توجد نتائج تطابق بحثك في هذا القسم.</p>';
+                } else {
+                    let resultsHTML = '<div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">';
+                    filtered.forEach(result => {
+                        const isProfit = result.status === 'ربح';
+                        resultsHTML += `
+                            <div class="glass-card p-5 rounded-2xl">
+                                <div class="flex justify-between items-center mb-3">
+                                    <h3 class="text-xl font-bold text-white">${result.symbol}</h3>
+                                    <div class="flex items-center gap-3">
+                                        <button data-id="${result.id}" class="edit-btn text-gray-500 hover:text-blue-400 text-lg"><i class="fas fa-edit"></i></button>
+                                        ${result.imageUrl ? `<a href="${result.imageUrl}" target="_blank" class="text-teal-400 hover:text-teal-300"><i class="fas fa-image"></i></a>` : ''}
+                                        <button data-id="${result.id}" class="delete-btn text-gray-500 hover:text-red-500 text-lg"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </div>
+                                <p class="text-sm text-gray-400 mb-3">التاريخ: ${result.entryDate}</p>
+                                <p class="text-2xl font-bold text-center py-3 ${isProfit ? 'text-green-400' : 'text-red-400'}">${result.resultValue}</p>
+                            </div>`;
+                    });
+                    resultsHTML += '</div>';
+                    wrapper.innerHTML = resultsHTML;
+                }
+            }
+
+            updateSubCategoryDropdown();
+            mainCategorySelect.addEventListener('change', updateSubCategoryDropdown);
+            searchInput.addEventListener('input', renderFilteredAnalyses);
+
+            addResultForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                submitBtn.disabled = true;
+                
+                const file = addResultForm.proofImage.files[0];
+                const analysisData = {
+                    market: market,
+                    mainCategory: addResultForm.mainCategory.value,
+                    subCategory: addResultForm.subCategory.value,
+                    symbol: addResultForm.symbol.value,
+                    entryDate: addResultForm.entryDate.value,
+                    entryPrice: addResultForm.entryPrice.value,
+                    target1: addResultForm.target1.value,
+                    target2: addResultForm.target2.value,
+                    resultValue: addResultForm.resultValue.value,
+                    status: addResultForm.status.value,
+                    summaryText: addResultForm.summaryText.value,
+                    imageUrl: null,
+                    createdAt: new Date()
+                };
+
+                const resetSubmitButton = (isSuccess) => {
+                    setTimeout(() => {
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'إضافة النتيجة';
+                        submitBtn.className = 'w-full bg-blue-600 text-white font-bold rounded-full py-3 px-6 hover:bg-blue-700 transition-colors';
+                        progressBarContainer.classList.add('hidden');
+                    }, 3000);
+
+                    if (isSuccess) {
+                        submitBtn.textContent = 'تم الحفظ بنجاح!';
+                        submitBtn.className = 'w-full bg-green-500 text-white font-bold rounded-full py-3 px-6 transition-colors';
+                    } else {
+                        submitBtn.textContent = 'فشل. حاول مرة أخرى.';
+                        submitBtn.className = 'w-full bg-red-500 text-white font-bold rounded-full py-3 px-6 transition-colors';
+                    }
+                };
+
+                const saveToFirestore = (data) => {
+                    addDoc(collection(db, 'results'), data)
+                        .then(() => {
+                            addResultForm.reset();
+                            resetSubmitButton(true);
+                        })
+                        .catch(error => {
+                            console.error("Firestore Error:", error);
+                            resetSubmitButton(false);
+                        });
+                };
+
+                if (file) {
+                    submitBtn.textContent = 'جاري رفع الصورة...';
+                    submitBtn.className = 'w-full bg-gray-500 text-white font-bold rounded-full py-3 px-6 transition-colors';
+                    progressBarContainer.classList.remove('hidden');
+
+                    const sanitizedFileName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+                    const storageRef = ref(storage, `proofs/${Date.now()}-${sanitizedFileName}`);
+                    const uploadTask = uploadBytesResumable(storageRef, file);
+
+                    uploadTask.on('state_changed', 
+                        (snapshot) => {
+                            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                            progressBarFill.style.width = progress + '%';
+                            progressBarFill.textContent = Math.round(progress) + '%';
+                        }, 
+                        (error) => {
+                            console.error("Upload failed:", error);
+                            alert(`فشل رفع الصورة! السبب: ${error.code}. يرجى التأكد من صحة قواعد الأمان واسم الـ bucket في Firebase Storage.`);
+                            resetSubmitButton(false);
+                        }, 
+                        () => {
+                            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                                analysisData.imageUrl = downloadURL;
+                                submitBtn.textContent = 'جاري حفظ البيانات...';
+                                saveToFirestore(analysisData);
+                            }).catch(error => {
+                                console.error("Get URL failed:", error);
+                                resetSubmitButton(false);
+                            });
+                        }
+                    );
+                } else {
+                    submitBtn.textContent = 'جاري الحفظ...';
+                    submitBtn.className = 'w-full bg-gray-500 text-white font-bold rounded-full py-3 px-6 transition-colors';
+                    saveToFirestore(analysisData);
+                }
+            });
+
+            const q = query(collection(db, "results"), where("market", "==", market), orderBy("createdAt", "desc"));
+            onSnapshot(q, (snapshot) => {
+                allAnalyses.length = 0;
+                snapshot.docs.forEach(doc => allAnalyses.push({ id: doc.id, ...doc.data() }));
+                renderFilteredAnalyses();
+            }, (error) => {
+                console.error("Snapshot error:", error);
+                if (error.code === 'failed-precondition') {
+                    console.warn("Firestore index missing. Falling back to unsorted query. Please create the index using the link in the error message for optimal performance.");
+                    const fallbackQuery = query(collection(db, "results"), where("market", "==", market));
+                    onSnapshot(fallbackQuery, (snapshot) => {
+                        allAnalyses.length = 0;
+                        snapshot.docs.forEach(doc => allAnalyses.push({ id: doc.id, ...doc.data() }));
+                        renderFilteredAnalyses();
+                    });
+                }
+            });
+
+            analysesDisplaySection.addEventListener('click', (e) => {
+                if (e.target.matches('.main-category-tab')) {
+                    analysesDisplaySection.querySelectorAll('.main-category-tab').forEach(t => t.classList.replace('sub-tab-active', 'sub-tab-inactive'));
+                    e.target.classList.replace('sub-tab-inactive', 'sub-tab-active');
+                    buildAnalysesDisplay(e.target.dataset.mainCategory);
+                }
+                if (e.target.matches('.sub-category-tab')) {
+                    analysesDisplaySection.querySelectorAll('.sub-category-tab').forEach(t => t.classList.replace('sub-tab-active', 'sub-tab-inactive'));
+                    e.target.classList.replace('sub-tab-inactive', 'sub-tab-active');
+                    renderFilteredAnalyses();
+                }
+                if (e.target.closest('.delete-btn')) {
+                    const id = e.target.closest('.delete-btn').dataset.id;
+                    if(confirm('هل أنت متأكد من حذف هذه النتيجة؟')) deleteDoc(doc(db, 'results', id));
+                }
+                if (e.target.closest('.edit-btn')) {
+                    alert('ميزة التعديل سيتم تفعيلها قريبًا!');
+                }
+            });
+
+            buildAnalysesDisplay('modaraba');
+        });
+    </script>
+</body>
+</html>

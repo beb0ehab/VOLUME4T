@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول - Volume4T</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .glass-card {
+            background: rgba(25, 28, 36, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(45, 212, 191, 0.15) 0%, rgba(45, 212, 191, 0) 70%);
+            transform: translate(40%, -40%);
+            pointer-events: none;
+        }
+        .glass-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0) 70%); /* Blue glow */
+            transform: translate(-40%, 40%);
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 flex items-center justify-center min-h-screen p-4">
+
+    <!-- Glassy Header -->
+    <header class="fixed top-0 left-0 right-0 bg-black/30 backdrop-blur-xl z-50 border-b border-gray-700/50">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-white">Volume4T<span class="text-teal-400">.</span></a>
+            <a href="index.html" class="flex items-center text-gray-300 hover:text-white transition-colors bg-white/5 hover:bg-white/10 px-4 py-2 rounded-full">
+                <span>العودة للرئيسية</span>
+                <i class="fas fa-arrow-left mr-2"></i>
+            </a>
+        </div>
+    </header>
+
+    <div class="w-full max-w-md">
+        <div class="glass-card p-8">
+            <div class="text-center">
+                <h1 class="text-3xl font-bold text-white mb-2">أهلاً بعودتك</h1>
+                <p class="text-gray-400 mb-8">سجل الدخول إلى حسابك</p>
+            </div>
+
+            <form id="login-form">
+                <div class="mb-5">
+                    <input type="email" id="email" placeholder="البريد الإلكتروني" class="w-full bg-gray-900/50 text-white rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-teal-500 border border-gray-700" required>
+                </div>
+                <div class="mb-6">
+                    <input type="password" id="password" placeholder="كلمة المرور" class="w-full bg-gray-900/50 text-white rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-teal-500 border border-gray-700" required>
+                </div>
+                <button type="submit" id="submit-btn" class="w-full bg-teal-500 hover:bg-teal-600 text-white font-bold py-3 px-6 rounded-lg transition-colors">
+                    دخول
+                </button>
+            </form>
+            <p id="error-message" class="text-red-400 text-center mt-4 text-sm"></p>
+            
+            <div class="text-center mt-8">
+                <span class="text-gray-500">ليس لديك حساب؟</span>
+                <a href="signup.html" class="text-teal-400 hover:underline font-semibold ml-1">إنشاء حساب جديد</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBkajwsO5ME11NravlECLJSlk4GN0xGbGE",
+            authDomain: "sco4mfortelegram.firebaseapp.com",
+            projectId: "sco4mfortelegram",
+            storageBucket: "sco4mfortelegram.appspot.com",
+            messagingSenderId: "72437321483",
+            appId: "1:72437321483:web:e89c4ff409f9c477605c0e",
+            measurementId: "G-0BZWRPSB76"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        const loginForm = document.getElementById('login-form');
+        const submitBtn = document.getElementById('submit-btn');
+        const errorMessage = document.getElementById('error-message');
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const email = loginForm.email.value;
+            const password = loginForm.password.value;
+            errorMessage.textContent = '';
+            
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i>`;
+
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    submitBtn.classList.replace('bg-teal-500', 'bg-green-500');
+                    submitBtn.innerHTML = `<i class="fas fa-check"></i>`;
+                    window.location.href = './index.html';
+                })
+                .catch((error) => {
+                    errorMessage.textContent = 'البريد الإلكتروني أو كلمة المرور غير صحيحة.';
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'دخول';
+                });
+        });
+    </script>
+
+</body>
+</html>

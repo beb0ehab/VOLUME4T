@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحليلات المضاربة (السوق السعودي) - Volume4T</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .tab-active {
+            background-color: #2563eb; /* blue-600 */
+            color: white;
+        }
+        .tab-inactive {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glass-card {
+            background: rgba(25, 28, 36, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .modal-backdrop {
+            transition: opacity 0.3s ease;
+        }
+        /* Style for the date picker icon */
+        input[type="date"]::-webkit-calendar-picker-indicator,
+        input[type="month"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+        }
+        .custom-select {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: left 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-200">
+
+    <!-- Header -->
+    <header class="bg-black/30 backdrop-blur-xl sticky top-0 z-50 border-b border-gray-700/50">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-white">Volume4T<span class="text-teal-400">.</span></a>
+            <a href="saudi-results.html" class="flex items-center text-gray-300 hover:text-white transition-colors bg-white/5 hover:bg-white/10 px-4 py-2 rounded-full">
+                <span>العودة</span>
+                <i class="fas fa-arrow-left mr-2"></i>
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Page Title Section -->
+        <section class="py-20 text-center">
+            <div class="container mx-auto px-6">
+                <div class="text-blue-400 text-5xl mb-4">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-white">تحليلات المضاربة - السوق السعودي</h1>
+                <p class="mt-4 text-lg text-gray-400 max-w-2xl mx-auto">
+                    اختر الفترة الزمنية ثم حدد التاريخ لعرض ملخص النتائج وتفاصيلها.
+                </p>
+            </div>
+        </section>
+
+        <!-- Filters and Results Section -->
+        <section class="py-10">
+            <div class="container mx-auto px-6">
+                <!-- Timeframe Tabs -->
+                <div class="mb-8 flex justify-center items-center gap-4 p-2 glass-card rounded-full max-w-md mx-auto">
+                    <button data-timeframe="daily" class="timeframe-tab tab-active flex-1 text-lg font-bold py-2 px-5 rounded-full focus:outline-none transition-colors">يومي</button>
+                    <button data-timeframe="weekly" class="timeframe-tab tab-inactive flex-1 text-lg font-bold py-2 px-5 rounded-full focus:outline-none transition-colors">أسبوعي</button>
+                    <button data-timeframe="monthly" class="timeframe-tab tab-inactive flex-1 text-lg font-bold py-2 px-5 rounded-full focus:outline-none transition-colors">شهري</button>
+                </div>
+
+                <!-- Date Filters Container -->
+                <div id="date-filters-container" class="mb-12 flex justify-center items-center gap-4">
+                    <!-- Filters will be dynamically added here -->
+                </div>
+
+                <!-- Summary & Results Container -->
+                <div id="results-container" class="hidden">
+                    <!-- Summary Card -->
+                    <div class="glass-card p-8 mb-12">
+                        <h3 class="text-2xl font-bold text-white mb-6 text-center">ملخص النتائج</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 text-center">
+                            <div><p class="text-gray-400">إجمالي الأسهم</p><p id="total-stocks" class="text-3xl font-bold text-white">0</p></div>
+                            <div><p class="text-gray-400">الرابحة</p><p id="winning-stocks" class="text-3xl font-bold text-green-400">0</p></div>
+                            <div><p class="text-gray-400">الخاسرة</p><p id="losing-stocks" class="text-3xl font-bold text-red-400">0</p></div>
+                            <div><p class="text-gray-400">إجمالي الربح</p><p id="total-profit" class="text-3xl font-bold text-green-400">0%</p></div>
+                            <div><p class="text-gray-400">إجمالي الخسارة</p><p id="total-loss" class="text-3xl font-bold text-red-400">0%</p></div>
+                        </div>
+                        <div class="mt-8 text-center">
+                            <button id="show-details-btn" class="bg-blue-600 text-white font-bold py-3 px-8 rounded-full text-lg hover:bg-blue-700 transition-colors">
+                                عرض التفاصيل
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Detailed Results Grid -->
+                    <div id="results-grid" class="hidden grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+                        <!-- Detailed results will be loaded here -->
+                    </div>
+                </div>
+                 <div id="no-results-message" class="hidden text-center text-gray-400 text-lg py-8">
+                    <p>لا توجد نتائج مسجلة لهذا التاريخ.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Image Modal -->
+    <div id="image-modal" class="modal-backdrop fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50 hidden opacity-0">
+        <div class="relative max-w-4xl max-h-full">
+            <img id="modal-img" src="" alt="إثبات التحليل" class="rounded-lg shadow-2xl">
+            <button id="close-modal-btn" class="absolute -top-4 -right-4 text-white bg-red-600 rounded-full h-10 w-10 flex items-center justify-center text-2xl">&times;</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-black/30 backdrop-blur-xl border-t border-gray-700/50 mt-20">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-400">
+            <p>&copy; 2024 جميع الحقوق محفوظة | Volume4T.</p>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+        import { getFirestore, collection, query, where, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBkajwsO5ME11NravlECLJSlk4GN0xGbGE",
+            authDomain: "sco4mfortelegram.firebaseapp.com",
+            projectId: "sco4mfortelegram",
+            storageBucket: "sco4mfortelegram.appspot.com",
+            messagingSenderId: "72437321483",
+            appId: "1:72437321483:web:e89c4ff409f9c477605c0e",
+            measurementId: "G-0BZWRPSB76"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const resultsGrid = document.getElementById('results-grid');
+        const resultsContainer = document.getElementById('results-container');
+        const noResultsMessage = document.getElementById('no-results-message');
+        const tabsContainer = document.querySelector('.glass-card');
+        const dateFiltersContainer = document.getElementById('date-filters-container');
+        const showDetailsBtn = document.getElementById('show-details-btn');
+        
+        let allModarabaResults = [];
+        let currentlyFilteredResults = [];
+
+        // --- Date & Filter UI Management ---
+        function setupDateFilters(timeframe) {
+            dateFiltersContainer.innerHTML = '';
+            const today = new Date();
+            const todayString = today.toISOString().split("T")[0];
+            const todayMonthString = today.toISOString().substring(0, 7);
+
+            if (timeframe === 'daily') {
+                const datePicker = document.createElement('input');
+                datePicker.type = 'date';
+                datePicker.id = 'date-picker';
+                datePicker.className = "bg-gray-800 border border-gray-700 text-white rounded-lg p-3 text-center text-lg custom-select";
+                datePicker.min = "2025-01-01";
+                datePicker.max = todayString;
+                dateFiltersContainer.appendChild(datePicker);
+            } else if (timeframe === 'monthly') {
+                const monthPicker = document.createElement('input');
+                monthPicker.type = 'month';
+                monthPicker.id = 'month-picker';
+                monthPicker.className = "bg-gray-800 border border-gray-700 text-white rounded-lg p-3 text-center text-lg custom-select";
+                monthPicker.min = "2025-01";
+                monthPicker.max = todayMonthString;
+                dateFiltersContainer.appendChild(monthPicker);
+            } else if (timeframe === 'weekly') {
+                const yearSelect = document.createElement('select');
+                yearSelect.id = 'year-select';
+                yearSelect.className = "bg-gray-800 border border-gray-700 text-white rounded-lg p-3 text-lg custom-select";
+                
+                const monthSelect = document.createElement('select');
+                monthSelect.id = 'month-select';
+                monthSelect.className = "bg-gray-800 border border-gray-700 text-white rounded-lg p-3 text-lg custom-select";
+
+                const weekSelect = document.createElement('select');
+                weekSelect.id = 'week-select';
+                weekSelect.className = "bg-gray-800 border border-gray-700 text-white rounded-lg p-3 text-lg custom-select";
+
+                dateFiltersContainer.append(yearSelect, monthSelect, weekSelect);
+                populateWeeklyFilters();
+            }
+            attachFilterListeners();
+        }
+
+        function populateWeeklyFilters() {
+            const yearSelect = document.getElementById('year-select');
+            const monthSelect = document.getElementById('month-select');
+            const weekSelect = document.getElementById('week-select');
+
+            const today = new Date();
+            const currentYear = today.getFullYear();
+            const currentMonth = today.getMonth();
+            const currentDate = today.getDate();
+
+            const updateMonths = () => {
+                monthSelect.innerHTML = '';
+                const selectedYear = parseInt(yearSelect.value);
+                const months = ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"];
+                
+                let startMonth = (selectedYear === 2025) ? 0 : 0;
+                let endMonth = (selectedYear === currentYear) ? currentMonth : 11;
+                
+                for (let i = startMonth; i <= endMonth; i++) {
+                     monthSelect.innerHTML += `<option value="${i}">${months[i]}</option>`;
+                }
+                updateWeeks();
+            };
+
+            const updateWeeks = () => {
+                weekSelect.innerHTML = '';
+                const selectedYear = parseInt(yearSelect.value);
+                const selectedMonth = parseInt(monthSelect.value);
+
+                let endWeek = 4;
+                if (selectedYear === currentYear && selectedMonth === currentMonth) {
+                    endWeek = Math.ceil(currentDate / 7);
+                }
+
+                for (let i = 1; i <= endWeek; i++) {
+                    weekSelect.innerHTML += `<option value="${i}">الأسبوع ${i}</option>`;
+                }
+            };
+            
+            yearSelect.innerHTML = '';
+            for (let i = currentYear; i >= 2025; i--) {
+                yearSelect.innerHTML += `<option value="${i}">${i}</option>`;
+            }
+
+            yearSelect.addEventListener('change', updateMonths);
+            monthSelect.addEventListener('change', updateWeeks);
+            
+            updateMonths();
+        }
+        
+        function attachFilterListeners() {
+            document.querySelectorAll('#date-filters-container input, #date-filters-container select').forEach(el => {
+                el.addEventListener('change', filterAndDisplayResults);
+            });
+        }
+        
+        // --- Data Filtering and Calculation ---
+        function filterAndDisplayResults() {
+            const activeTimeframe = document.querySelector('.timeframe-tab.tab-active').dataset.timeframe;
+            let startDate, endDate;
+
+            if (activeTimeframe === 'daily') {
+                const selectedDate = document.getElementById('date-picker').value;
+                if (!selectedDate) return;
+                startDate = new Date(selectedDate);
+                endDate = new Date(selectedDate);
+                endDate.setDate(endDate.getDate() + 1);
+            } else if (activeTimeframe === 'monthly') {
+                const selectedMonth = document.getElementById('month-picker').value;
+                if (!selectedMonth) return;
+                const [year, month] = selectedMonth.split('-');
+                startDate = new Date(year, month - 1, 1);
+                endDate = new Date(year, month, 1);
+            } else if (activeTimeframe === 'weekly') {
+                const year = document.getElementById('year-select').value;
+                const month = document.getElementById('month-select').value;
+                const week = document.getElementById('week-select').value;
+                
+                const weekStartDay = (week - 1) * 7 + 1;
+                startDate = new Date(year, month, weekStartDay);
+                endDate = new Date(year, month, weekStartDay + 7);
+            }
+
+            currentlyFilteredResults = allModarabaResults.filter(result => {
+                const resultDate = new Date(result.entryDate);
+                return resultDate >= startDate && resultDate < endDate;
+            });
+
+            if (currentlyFilteredResults.length > 0) {
+                calculateAndDisplaySummary(currentlyFilteredResults);
+                resultsContainer.classList.remove('hidden');
+                noResultsMessage.classList.add('hidden');
+                resultsGrid.classList.add('hidden'); // Hide details initially
+            } else {
+                resultsContainer.classList.add('hidden');
+                noResultsMessage.classList.remove('hidden');
+            }
+        }
+
+        function calculateAndDisplaySummary(results) {
+            let winning = 0;
+            let losing = 0;
+            let totalProfit = 0;
+            let totalLoss = 0;
+
+            results.forEach(result => {
+                const value = parseFloat(result.resultValue);
+                if (result.status === 'ربح') {
+                    winning++;
+                    if (!isNaN(value)) totalProfit += value;
+                } else if (result.status === 'خسارة') {
+                    losing++;
+                    if (!isNaN(value)) totalLoss += value;
+                }
+            });
+            
+            document.getElementById('total-stocks').textContent = results.length;
+            document.getElementById('winning-stocks').textContent = winning;
+            document.getElementById('losing-stocks').textContent = losing;
+            document.getElementById('total-profit').textContent = `${totalProfit.toFixed(2)}%`;
+            document.getElementById('total-loss').textContent = `${totalLoss.toFixed(2)}%`;
+        }
+
+        // --- UI Interaction ---
+        tabsContainer.addEventListener('click', (e) => {
+            if (e.target.matches('.timeframe-tab')) {
+                document.querySelectorAll('.timeframe-tab').forEach(btn => btn.classList.replace('tab-active', 'tab-inactive'));
+                e.target.classList.replace('tab-inactive', 'tab-active');
+                setupDateFilters(e.target.dataset.timeframe);
+                resultsContainer.classList.add('hidden');
+                noResultsMessage.classList.add('hidden');
+            }
+        });
+
+        showDetailsBtn.addEventListener('click', () => {
+            resultsGrid.classList.toggle('hidden');
+            if (!resultsGrid.classList.contains('hidden')) {
+                renderDetailedCards(currentlyFilteredResults);
+            }
+        });
+        
+        function renderDetailedCards(results) {
+             resultsGrid.innerHTML = '';
+             results.forEach(result => {
+                const isProfit = result.status === 'ربح';
+                const cardHTML = `
+                    <div class="glass-card p-6 rounded-2xl flex flex-col">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-2xl font-bold text-white">${result.symbol || 'N/A'}</h3>
+                            <span class="text-sm font-semibold px-3 py-1 rounded-full ${isProfit ? 'bg-green-500/20 text-green-300' : 'bg-red-500/20 text-red-300'}">${result.status}</span>
+                        </div>
+                        <div class="space-y-3 text-gray-300 flex-grow">
+                            <p><strong class="font-semibold text-gray-400 ml-2">الربح/الخسارة:</strong> ${result.resultValue || 'N/A'}</p>
+                            <p><strong class="font-semibold text-gray-400 ml-2">نقطة الدخول:</strong> ${result.entryPrice || 'N/A'}</p>
+                            <p><strong class="font-semibold text-gray-400 ml-2">الهدف الأول:</strong> ${result.target1 || 'N/A'}</p>
+                            <p><strong class="font-semibold text-gray-400 ml-2">الهدف الثاني:</strong> ${result.target2 || 'N/A'}</p>
+                        </div>
+                        ${result.imageUrl ? `
+                        <div class="mt-6 pt-4 border-t border-white/10">
+                            <button data-img-src="${result.imageUrl}" class="read-more-btn w-full bg-white/10 hover:bg-white/20 text-white font-bold py-2 px-4 rounded-lg transition-colors">
+                                عرض الإثبات
+                            </button>
+                        </div>
+                        ` : ''}
+                    </div>
+                `;
+                resultsGrid.innerHTML += cardHTML;
+            });
+        }
+        
+        // --- Initial Load & Data Fetching ---
+        const q = query(
+            collection(db, "results"), 
+            where("market", "==", "saudi"), 
+            where("mainCategory", "==", "modaraba")
+        );
+        onSnapshot(q, (snapshot) => {
+            allModarabaResults = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            allModarabaResults.sort((a, b) => new Date(b.createdAt.toDate()) - new Date(a.createdAt.toDate()));
+            filterAndDisplayResults();
+        });
+        
+        setupDateFilters('daily');
+
+    </script>
+</body>
+</html>

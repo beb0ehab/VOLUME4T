@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volume4T التداول الاحترافي - اسمك هنا</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts (Cairo) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Link to your external CSS file -->
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        /* Modern Theme Enhancements */
+        body {
+            font-family: 'Cairo', sans-serif;
+        }
+        .nav-link {
+            position: relative;
+            padding-bottom: 0.5rem;
+            transition: color 0.3s ease-in-out;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #2dd4bf; /* teal-400 */
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease-in-out;
+        }
+        .nav-link:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+        .dropdown-menu {
+            background-color: rgba(23, 27, 38, 0.8); /* Darker glass effect */
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            pointer-events: none;
+        }
+        .dropdown-menu.open {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        .glass-card {
+            background: rgba(31, 41, 55, 0.5); /* gray-800 with opacity */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .text-shadow-gold {
+            text-shadow: 0 0 15px #FFD700;
+        }
+
+        /* Initial background for the hero section */
+        #hero-section-interactive {
+            background: radial-gradient(circle at 50% 50%, rgba(56, 178, 172, 0.1) 0%, rgba(26, 32, 44, 1) 70%);
+            transition: background 0.1s ease-out; /* Smooth transition for background changes */
+        }
+    </style>
+
+</head>
+<body class="bg-gray-900 text-gray-200">
+
+    <!-- Header -->
+    <header class="bg-black/30 backdrop-blur-xl sticky top-0 z-50 border-b border-gray-700/50">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-white transition-transform hover:scale-105">Volume4T<span class="text-teal-400">.</span></a>
+            <nav class="hidden md:flex items-center space-x-6 space-x-reverse">
+                
+                <!-- Dropdown -->
+                <div class="relative">
+                    <button id="channels-dropdown-btn" class="nav-link flex items-center text-gray-300 hover:text-white">
+                        <span>قنوات التوصيات</span>
+                        <i class="fas fa-chevron-down text-xs mr-2 transition-transform duration-300"></i>
+                    </button>
+                    <div id="channels-dropdown-menu" class="dropdown-menu absolute left-0 mt-2 w-48 py-2 z-50">
+                        <a href="modaraba-channel.html" class="block px-4 py-2 text-gray-300 hover:bg-white/10 hover:text-white rounded-lg m-1">قناه مضاربه</a>
+                        <a href="swing-channel.html" class="block px-4 py-2 text-gray-300 hover:bg-white/10 hover:text-white rounded-lg m-1">قناه Swing</a>
+                        <a href="investment-channel.html" class="block px-4 py-2 text-gray-300 hover:bg-white/10 hover:text-white rounded-lg m-1">قناه استثمار</a>
+                    </div>
+                </div>
+                
+                <a href="saudi-market-info.html" class="nav-link text-gray-300 hover:text-white">السوق السعودي</a>
+                <a href="american-market-info.html" class="nav-link text-gray-300 hover:text-white">السوق الأمريكي</a>
+                <a href="packages-hub.html" class="nav-link text-gray-300 hover:text-white">الباقات</a>
+                <a href="results.html" class="nav-link text-gray-300 hover:text-white">التحليلات السابقة</a>
+                <a href="articles.html" class="nav-link text-gray-300 hover:text-white">مقالات</a>
+                <a href="contact.html" class="nav-link text-gray-300 hover:text-white">تواصل معنا</a>
+            </nav>
+            
+            <!-- Auth Buttons Container -->
+            <div class="hidden md:flex items-center">
+                <a href="login.html" id="desktop-login-btn" class="bg-white/10 border border-white/20 text-white font-bold py-2 px-6 rounded-full hover:bg-white/20 transition-colors">
+                    تسجيل الدخول
+                </a>
+                <button id="desktop-logout-btn" class="hidden bg-red-500/20 border border-red-500/30 text-red-300 font-bold py-2 px-6 rounded-full hover:bg-red-500/30 transition-colors">
+                    تسجيل الخروج
+                </button>
+            </div>
+
+            <button id="mobile-menu-button" class="md:hidden text-2xl" aria-label="Toggle mobile menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+            <div class="relative">
+                <button id="mobile-channels-dropdown-btn" class="w-full text-center py-2 hover:bg-gray-800 rounded-lg flex items-center justify-center">
+                    <span>قنوات التوصيات</span>
+                    <i class="fas fa-chevron-down text-xs mr-2"></i>
+                </button>
+                <div id="mobile-channels-dropdown-menu" class="hidden mt-2 w-full bg-gray-700 rounded-lg py-2">
+                    <a href="modaraba-channel.html" class="block text-center px-4 py-2 text-gray-300 hover:bg-gray-600 hover:text-white">قناه مضاربه</a>
+                    <a href="swing-channel.html" class="block text-center px-4 py-2 text-gray-300 hover:bg-gray-600 hover:text-white">قناه Swing</a>
+                    <a href="investment-channel.html" class="block text-center px-4 py-2 text-gray-300 hover:bg-gray-600 hover:text-white">قناه استثمار</a>
+                </div>
+            </div>
+            <a href="saudi-market-info.html" class="block py-2 text-center hover:bg-gray-800 rounded-lg">السوق السعودي</a>
+            <a href="american-market-info.html" class="block py-2 text-center hover:bg-gray-800 rounded-lg">السوق الأمريكي</a>
+            <a href="packages-hub.html" class="block py-2 text-center hover:bg-gray-800 rounded-lg">الباقات</a>
+            <a href="results.html" class="block py-2 text-center hover:bg-gray-800 rounded-lg">التحليلات السابقة</a>
+            <a href="articles.html" class="block py-2 text-center hover:bg-gray-800 rounded-lg">مقالات</a>
+            <a href="contact.html" class="block py-2 text-center hover:bg-gray-800 rounded-lg">تواصل معنا</a>
+            
+            <!-- Mobile Auth Buttons -->
+            <a href="login.html" id="mobile-login-btn" class="block mt-4 bg-white/10 border border-white/20 text-white font-bold py-3 px-6 rounded-full text-center">
+                تسجيل الدخول
+            </a>
+            <button id="mobile-logout-btn" class="hidden w-full mt-4 bg-red-500/20 border border-red-500/30 text-red-300 font-bold py-3 px-6 rounded-full transition-colors text-center">
+                تسجيل الخروج
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="py-20 md:py-32 bg-gray-900">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-4xl md:text-6xl font-extrabold text-white leading-normal">
+                    أتقن <span id="interactive-gradient-text" class="text-white px-2 py-1 rounded">فن التداول في الأسواق</span> وانطلق نحو الحرية المالية
+                </h2>
+                <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                        const interactiveText = document.getElementById('interactive-gradient-text');
+                        if (interactiveText) {
+                            // Set initial background for the span
+                            interactiveText.style.background = 'linear-gradient(90deg, #38b2ac, #63b3ed)';
+                            interactiveText.style.display = 'inline-block'; // Ensure background applies correctly
+
+                            interactiveText.addEventListener('mousemove', (e) => {
+                                const { clientX, clientY } = e;
+                                const { left, top, width, height } = interactiveText.getBoundingClientRect();
+                                
+                                // Calculate position relative to the element
+                                const x = clientX - left;
+                                const y = clientY - top;
+
+                                // Normalize x and y to a range of -1 to 1
+                                const normalizedX = (x / width) * 2 - 1;
+                                const normalizedY = (y / height) * 2 - 1;
+
+                                // Calculate angle based on mouse position
+                                // Angle will range from -180 to 180 degrees
+                                const angle = Math.atan2(normalizedY, normalizedX) * (180 / Math.PI);
+
+                                // Adjust the gradient dynamically for the background
+                                interactiveText.style.background = `linear-gradient(${angle + 90}deg, #38b2ac, #63b3ed)`;
+                            });
+
+                            // Reset to default gradient when mouse leaves
+                            interactiveText.addEventListener('mouseleave', () => {
+                                interactiveText.style.background = 'linear-gradient(90deg, #38b2ac, #63b3ed)';
+                            });
+                        }
+                    });
+                </script>
+                <p class="mt-6 text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">
+                    انضم إلى مجتمعنا وتصفح باقاتنا المتخصصة التي ستأخذك خطوة بخطوة نحو الاحتراف في عالم تداول الأسهم.
+                </p>
+                <div id="hero-buttons" class="mt-10 flex justify-center items-center gap-4 flex-wrap">
+                    <a href="signup.html" id="hero-signup-btn" class="bg-blue-600 text-white font-bold py-4 px-10 rounded-full text-lg hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-user-plus mr-2"></i>
+                        إنشاء حساب جديد
+                    </a>
+                     <a href="packages-hub.html" class="bg-white/10 border border-white/20 text-white font-bold py-4 px-10 rounded-full text-lg hover:bg-white/20 transition-colors">
+                        <i class="fas fa-box-open mr-2"></i>
+                        تصفح الباقات
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-20 bg-gray-800">
+            <div class="container mx-auto px-6">
+                <div class="flex flex-col md:flex-row items-center gap-12">
+                    <div class="md:w-1/2">
+                        <img src= "imeges/image in index.png" alt="صورة مؤسس Volume4T" class="rounded-lg shadow-2xl w-full">
+                    </div>
+                    <div class="md:w-1/2">
+                        <h3 class="text-3xl font-bold text-white mb-4">عن مؤسس Volume4T</h3>
+                        <p class="text-gray-300 mb-4">
+                            بخبرة تمتد لأكثر من 15 عامًا في أسواق المال العالمية، يشارككم مؤسس Volume4T، الخبير الاستراتيجي والمحلل المالي المعتمد، خلاصة علمه وتجاربه.
+                        </p>
+                        <p class="text-gray-300 mb-4">
+                            بعد أن حقق نجاحات ملموسة وأدار محافظ استثمارية بملايين الدولارات، قرر تكريس وقته لتمكين المتداولين العرب.
+                        </p>
+                        <p class="text-gray-300 mb-4">
+                            من خلال تقديم محتوى تعليمي عالي الجودة واستراتيجيات تداول مبتكرة أثبتت فعاليتها.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Testimonials Section -->
+        <section id="testimonials" class="py-20 bg-gray-900">
+            <div class="container mx-auto px-6">
+                <h3 class="text-3xl md:text-4xl font-bold text-center text-white mb-12">آراء عملائنا</h3>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Testimonial 1 -->
+                    <div class="glass-card p-8 rounded-2xl">
+                        <p class="text-gray-300 mb-6">"بصراحة، أفضل استثمار قمت به في نفسي. الدورة غيرت نظرتي بالكامل للتداول وقدمت لي خريطة طريق واضحة للنجاح."</p>
+                        <div class="flex items-center">
+                            <img src="https://placehold.co/50x50/38b2ac/1a202c?text=A" alt="صورة طالب" class="w-12 h-12 rounded-full mr-4 ml-4">
+                            <div>
+                                <h5 class="text-white font-bold">أحمد خالد</h5>
+                                <p class="text-teal-400 text-sm">متداول مبتدئ</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Testimonial 2 -->
+                    <div class="glass-card p-8 rounded-2xl">
+                        <p class="text-gray-300 mb-6">"المحتوى قيم جداً والدعم من المدرب كان أكثر من رائع. أنصح بهذه الدورة لكل من هو جاد في تعلم التداول."</p>
+                        <div class="flex items-center">
+                            <img src="https://placehold.co/50x50/63b3ed/1a202c?text=F" alt="صورة طالبة" class="w-12 h-12 rounded-full mr-4 ml-4">
+                            <div>
+                                <h5 class="text-white font-bold">فاطمة علي</h5>
+                                <p class="text-teal-400 text-sm">مستثمرة</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Testimonial 3 -->
+                    <div class="glass-card p-8 rounded-2xl">
+                        <p class="text-gray-300 mb-6">"بعد سنوات من الخسائر العشوائية، هذه الدورة وضعتني على الطريق الصحيح. الآن أتداول بثقة وربحية."</p>
+                        <div class="flex items-center">
+                            <img src="https://placehold.co/50x50/d69e2e/1a202c?text=M" alt="صورة طالب" class="w-12 h-12 rounded-full mr-4 ml-4">
+                            <div>
+                                <h5 class="text-white font-bold">محمد سعيد</h5>
+                                <p class="text-teal-400 text-sm">متداول محترف</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-12 text-center">
+                    <a href="testimonials.html" class="bg-white/10 border border-white/20 text-white font-bold py-3 px-8 rounded-full text-lg hover:bg-white/20 transition-colors">
+                        رؤية المزيد من الآراء
+                        <i class="fas fa-arrow-left mr-2"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sharia Filter Section -->
+        <section id="sharia-filter" class="py-20 bg-gray-800">
+            <div class="container mx-auto px-6 text-center">
+                <h3 class="text-3xl md:text-4xl font-bold text-white mb-6 text-shadow-gold">الفلتر الشرعي للأسهم</h3>
+                <p class="text-gray-400 max-w-2xl mx-auto mb-8">
+                    تأكد من أن استثماراتك تتوافق مع أحكام الشريعة الإسلامية. استخدم فلترنا للتحقق من شرعية الأسهم بسهولة.
+                </p>
+                <a href="sharia-filter.html" class="glass-card inline-block text-white font-bold py-4 px-10 rounded-full text-lg transition-all duration-300 hover:bg-white/10 hover:shadow-lg hover:border-white/20">
+                    <i class="fas fa-check-circle mr-2"></i>
+                    اعرف شرعية سهمك
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="glass-card pt-12 rounded-t-2xl">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-8">
+                <!-- Logo and About -->
+                <div class="md:col-span-1">
+                    <a href="index.html" class="text-2xl font-bold text-white transition-transform hover:scale-105">Volume4T<span class="text-teal-400">.</span></a>
+                    <p class="text-gray-400 mt-4">
+                        أتقن فن التداول في الأسواق وانطلق نحو الحرية المالية.
+                    </p>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h5 class="font-bold text-white mb-4">روابط سريعة</h5>
+                    <ul class="space-y-2">
+                        <li><a href="packages-hub.html" class="text-gray-400 hover:text-teal-400 transition-colors">الباقات</a></li>
+                        <li><a href="results.html" class="text-gray-400 hover:text-teal-400 transition-colors">التحليلات السابقة</a></li>
+                        <li><a href="articles.html" class="text-gray-400 hover:text-teal-400 transition-colors">مقالات</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-teal-400 transition-colors">تواصل معنا</a></li>
+                    </ul>
+                </div>
+
+                <!-- Social Media -->
+                <div>
+                    <h5 class="font-bold text-white mb-4">تابعنا</h5>
+                    <div class="flex space-x-4 space-x-reverse">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors text-2xl footer-social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors text-2xl footer-social-icon"><i class="fab fa-telegram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors text-2xl footer-social-icon"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors text-2xl footer-social-icon"><i class="fab fa-snapchat"></i></a>
+                    </div>
+                </div>
+
+                <!-- Payment Methods -->
+                <div>
+                    <h5 class="font-bold text-white mb-4">طرق الدفع المتاحة</h5>
+                    <div class="flex items-center space-x-2 space-x-reverse">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" class="h-8 bg-white p-1 rounded">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Mastercard_2019_logo.svg" alt="MasterCard" class="h-8">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/d/d6/Visa_2021.svg" alt="Visa" class="h-8">
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 border-t border-gray-700 pt-6 pb-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-500 text-sm">&copy; 2025 جميع الحقوق محفوظة | Volume4T.</p>
+                <div class="flex space-x-4 space-x-reverse mt-4 md:mt-0">
+                    <a href="#" class="text-gray-500 hover:text-white text-sm">سياسة الخصوصية</a>
+                    <a href="#" class,="text-gray-500 hover:text-white text-sm">شروط الاستخدام</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK for Auth State -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBkajwsO5ME11NravlECLJSlk4GN0xGbGE",
+            authDomain: "sco4mfortelegram.firebaseapp.com",
+            projectId: "sco4mfortelegram",
+            storageBucket: "sco4mfortelegram.appspot.com",
+            messagingSenderId: "72437321483",
+            appId: "1:72437321483:web:e89c4ff409f9c477605c0e",
+            measurementId: "G-0BZWRPSB76"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        const desktopLoginBtn = document.getElementById('desktop-login-btn');
+        const mobileLoginBtn = document.getElementById('mobile-login-btn');
+        const desktopLogoutBtn = document.getElementById('desktop-logout-btn');
+        const mobileLogoutBtn = document.getElementById('mobile-logout-btn');
+        const heroSignupBtn = document.getElementById('hero-signup-btn');
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                desktopLoginBtn.classList.add('hidden');
+                mobileLoginBtn.classList.add('hidden');
+                desktopLogoutBtn.classList.remove('hidden');
+                mobileLogoutBtn.classList.remove('hidden');
+                if (heroSignupBtn) {
+                    heroSignupBtn.classList.add('hidden');
+                }
+            } else {
+                desktopLoginBtn.classList.remove('hidden');
+                mobileLoginBtn.classList.remove('hidden');
+                desktopLogoutBtn.classList.add('hidden');
+                mobileLogoutBtn.classList.add('hidden');
+                if (heroSignupBtn) {
+                    heroSignupBtn.classList.remove('hidden');
+                }
+            }
+        });
+
+        desktopLogoutBtn.addEventListener('click', () => signOut(auth));
+        mobileLogoutBtn.addEventListener('click', () => signOut(auth));
+    </script>
+
+    <script>
+        // --- Mobile Menu & Dropdown Logic ---
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (mobileMenuButton) {
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+
+        const desktopBtn = document.getElementById('channels-dropdown-btn');
+        const desktopMenu = document.getElementById('channels-dropdown-menu');
+        const dropdownIcon = desktopBtn.querySelector('i');
+
+        if (desktopBtn) {
+            desktopBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                desktopMenu.classList.toggle('open');
+                dropdownIcon.classList.toggle('rotate-180');
+            });
+        }
+
+        const mobileBtn = document.getElementById('mobile-channels-dropdown-btn');
+        const mobileMenuDropdown = document.getElementById('mobile-channels-dropdown-menu');
+         if (mobileBtn) {
+            mobileBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                mobileMenuDropdown.classList.toggle('hidden');
+            });
+        }
+
+        window.addEventListener('click', (e) => {
+            if (desktopMenu && desktopMenu.classList.contains('open') && !desktopBtn.contains(e.target)) {
+                desktopMenu.classList.remove('open');
+                dropdownIcon.classList.remove('rotate-180');
+            }
+        });
+    </script>
+</body>
+</html>

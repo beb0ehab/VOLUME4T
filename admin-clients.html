@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بيانات العملاء - لوحة التحكم</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- SheetJS (xlsx) library for Excel export -->
+    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .glass-card {
+            background: rgba(25, 28, 36, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-200">
+    
+    <div id="admin-content" class="hidden min-h-screen">
+        <!-- Header -->
+        <header class="bg-black/30 backdrop-blur-xl sticky top-0 z-50 border-b border-gray-700/50">
+            <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+                <h1 class="text-2xl font-bold text-white">إدارة بيانات العملاء</h1>
+                <a href="dashboard.html" class="flex items-center text-gray-300 hover:text-white transition-colors bg-white/5 hover:bg-white/10 px-4 py-2 rounded-full">
+                    <span>العودة للوحة التحكم</span>
+                    <i class="fas fa-arrow-left mr-2"></i>
+                </a>
+            </div>
+        </header>
+
+        <main class="container mx-auto px-6 py-12">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-3xl font-bold text-white">العملاء المسجلون</h2>
+                <button id="export-clients-btn" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-5 rounded-lg transition-colors">
+                    <i class="fas fa-file-excel ml-2"></i> تحميل كملف Excel
+                </button>
+            </div>
+            <div class="glass-card rounded-2xl shadow-xl overflow-x-auto">
+                <table class="w-full text-right">
+                    <thead class="bg-white/5">
+                        <tr>
+                            <th class="p-4 font-semibold">اسم المستخدم</th>
+                            <th class="p-4 font-semibold">البريد الإلكتروني</th>
+                            <th class="p-4 font-semibold">رقم الهاتف</th>
+                        </tr>
+                    </thead>
+                    <tbody id="clients-table-body">
+                        <!-- Client data will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script type="module">
+        import { protectPage } from './auth-guard.js';
+        import { getFirestore, collection, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBkajwsO5ME11NravlECLJSlk4GN0xGbGE",
+            authDomain: "sco4mfortelegram.firebaseapp.com",
+            projectId: "sco4mfortelegram",
+            storageBucket: "sco4mfortelegram.appspot.com",
+            messagingSenderId: "72437321483",
+            appId: "1:72437321483:web:e89c4ff409f9c477605c0e",
+            measurementId: "G-0BZWRPSB76"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        protectPage((user) => {
+            document.getElementById('admin-content').classList.remove('hidden');
+
+            const allClients = [];
+            const clientsTableBody = document.getElementById('clients-table-body');
+            const exportBtn = document.getElementById('export-clients-btn');
+
+            const q = query(collection(db, "users"), orderBy("createdAt", "desc"));
+            onSnapshot(q, (snapshot) => {
+                allClients.length = 0;
+                clientsTableBody.innerHTML = '';
+                if (snapshot.empty) {
+                    clientsTableBody.innerHTML = `<tr><td colspan="3" class="text-center p-8 text-gray-400">لا يوجد عملاء مسجلون لعرضهم.</td></tr>`;
+                    return;
+                }
+                snapshot.docs.forEach(doc => {
+                    const client = { id: doc.id, ...doc.data() };
+                    allClients.push(client);
+                    const row = `
+                        <tr class="border-b border-white/10">
+                            <td class="p-4">${client.username}</td>
+                            <td class="p-4">${client.email}</td>
+                            <td class="p-4" dir="ltr">${client.phone}</td>
+                        </tr>
+                    `;
+                    clientsTableBody.innerHTML += row;
+                });
+            });
+
+            exportBtn.addEventListener('click', () => {
+                if (allClients.length === 0) {
+                    alert("لا توجد بيانات لتصديرها.");
+                    return;
+                }
+                const dataToExport = allClients.map(client => ({
+                    'اسم المستخدم': client.username,
+                    'البريد الإلكتروني': client.email,
+                    'رقم الهاتف': client.phone
+                }));
+                
+                const worksheet = XLSX.utils.json_to_sheet(dataToExport);
+                const workbook = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(workbook, worksheet, "بيانات العملاء");
+                XLSX.writeFile(workbook, "clients_data.xlsx");
+            });
+        });
+    </script>
+</body>
+</html>

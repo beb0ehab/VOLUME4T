@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مقالات في التداول - Volume4T</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .glass-card {
+            background: rgba(25, 28, 36, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .article-active {
+            background-color: rgba(45, 212, 191, 0.15); /* teal-400 with opacity */
+            border-right-color: #2dd4bf; /* teal-400 */
+        }
+        .prose-custom p {
+            line-height: 1.8;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-200">
+
+    <!-- Header -->
+    <header class="bg-black/30 backdrop-blur-xl sticky top-0 z-50 border-b border-gray-700/50">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-white">Volume4T<span class="text-teal-400">.</span></a>
+            <a href="index.html" class="flex items-center text-gray-300 hover:text-white transition-colors bg-white/5 hover:bg-white/10 px-4 py-2 rounded-full">
+                <span>العودة للرئيسية</span>
+                <i class="fas fa-arrow-left mr-2"></i>
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Page Title Section -->
+        <section class="py-20 text-center">
+            <div class="container mx-auto px-6">
+                <div class="text-teal-400 text-5xl mb-4">
+                    <i class="fas fa-newspaper"></i>
+                </div>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-white">مقالات تعليمية</h1>
+                <p class="mt-4 text-lg text-gray-400 max-w-2xl mx-auto">
+                    مكتبتك للمعرفة في عالم التداول والاستثمار.
+                </p>
+            </div>
+        </section>
+
+        <!-- Articles Section -->
+        <section class="py-10">
+            <div class="container mx-auto px-6 flex flex-col lg:flex-row gap-12">
+                
+                <!-- Main Article Content (Left) -->
+                <div id="article-content" class="lg:w-3/4 glass-card p-8 md:p-12 rounded-2xl">
+                    <!-- Content will be loaded here by JS -->
+                </div>
+
+                <!-- Articles List (Right) -->
+                <aside id="articles-list" class="lg:w-1/4">
+                    <div class="glass-card p-6 rounded-2xl">
+                        <h3 class="text-2xl font-bold text-white mb-6 border-b-2 border-teal-400 pb-2">أحدث المقالات</h3>
+                        <div class="space-y-4">
+                            <!-- Article links will be added here -->
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-black/30 backdrop-blur-xl border-t border-gray-700/50 mt-20">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-400">
+            <p>&copy; 2024 جميع الحقوق محفوظة | Volume4T.</p>
+        </div>
+    </footer>
+
+    <script>
+        const articles = [
+            {
+                id: 'psychology-of-trading',
+                title: 'سيكولوجية التداول: كيف تسيطر على مشاعرك؟',
+                author: 'اسم الكاتب',
+                date: '15 أغسطس 2025',
+                image: 'https://placehold.co/800x400/1a202c/63b3ed?text=Trading+Psychology',
+                content: `
+                    <p>يعتبر التحكم في المشاعر أحد أهم أعمدة النجاح في عالم التداول. الخوف والطمع هما العدوان الرئيسيان لأي متداول، ويمكن أن يؤديا إلى قرارات متهورة وخسائر فادحة. في هذا المقال، سنستعرض أهم الاستراتيجيات للسيطرة على سيكولوجية التداول وتحقيق الانضباط الذاتي.</p>
+                    <h3 class="text-2xl font-bold mt-6 mb-3 text-white">1. وضع خطة تداول واضحة</h3>
+                    <p>قبل الدخول في أي صفقة، يجب أن تكون لديك خطة محددة مسبقًا تتضمن نقاط الدخول، وقف الخسارة، وأهداف الربح. الالتزام بهذه الخطة يقلل من تأثير المشاعر اللحظية ويجعلك تتداول بناءً على منطق واستراتيجية.</p>
+                    <h3 class="text-2xl font-bold mt-6 mb-3 text-white">2. إدارة المخاطر بصرامة</h3>
+                    <p>لا تخاطر أبدًا بأكثر مما يمكنك تحمل خسارته في صفقة واحدة. القاعدة العامة هي عدم المخاطرة بأكثر من 1-2% من إجمالي رأس مالك. هذا يضمن أن خسارة واحدة لن تؤثر بشكل كارثي على حسابك، مما يقلل من الخوف والقلق.</p>
+                `
+            },
+            {
+                id: 'technical-analysis-basics',
+                title: 'مبادئ التحليل الفني للمبتدئين',
+                author: 'اسم الكاتب',
+                date: '12 أغسطس 2025',
+                image: 'https://placehold.co/800x400/1a202c/38b2ac?text=Technical+Analysis',
+                content: `
+                    <p>التحليل الفني هو دراسة حركة الأسعار التاريخية لتوقع حركتها المستقبلية. يعتمد المحللون الفنيون على الرسوم البيانية والمؤشرات لتحديد الأنماط والاتجاهات. إليك أهم المبادئ التي يجب أن يعرفها كل مبتدئ.</p>
+                    <h3 class="text-2xl font-bold mt-6 mb-3 text-white">أ. الدعم والمقاومة</h3>
+                    <p>مستويات الدعم هي مناطق سعرية يميل السعر للارتداد منها صعودًا، بينما مستويات المقاومة هي مناطق يميل السعر للارتداد منها هبوطًا. تحديد هذه المستويات هو حجر الزاوية في التحليل الفني.</p>
+                `
+            },
+            {
+                id: 'risk-management',
+                title: 'أهمية إدارة المخاطر في الحفاظ على رأس المال',
+                author: 'اسم الكاتب',
+                date: '10 أغسطس 2025',
+                image: 'https://placehold.co/800x400/1a202c/d69e2e?text=Risk+Management',
+                content: `
+                    <p>الهدف الأول لأي متداول ليس تحقيق الأرباح، بل الحفاظ على رأس المال. إدارة المخاطر هي مجموعة القواعد التي تتبعها لحماية حسابك من الخسائر الكبيرة. بدون إدارة مخاطر فعالة، حتى أفضل استراتيجيات التداول يمكن أن تفشل.</p>
+                `
+            }
+        ];
+
+        const articleContentDiv = document.getElementById('article-content');
+        const articlesListDiv = document.querySelector('#articles-list .space-y-4');
+
+        function displayArticle(articleId) {
+            const article = articles.find(a => a.id === articleId);
+            if (!article) return;
+
+            articleContentDiv.innerHTML = `
+                <img src="${article.image}" alt="${article.title}" class="w-full rounded-lg mb-6">
+                <h2 class="text-4xl font-extrabold text-white mb-4">${article.title}</h2>
+                <div class="flex items-center text-gray-400 text-sm mb-6">
+                    <span><i class="fas fa-user fa-fw mr-2 ml-2"></i>${article.author}</span>
+                    <span class="mx-3">|</span>
+                    <span><i class="fas fa-calendar-alt fa-fw mr-2 ml-2"></i>${article.date}</span>
+                </div>
+                <div class="prose-custom text-gray-300 space-y-4">
+                    ${article.content}
+                </div>
+            `;
+
+            document.querySelectorAll('.article-link').forEach(link => {
+                link.classList.remove('article-active');
+                link.classList.remove('bg-gray-900/50');
+                link.classList.add('bg-transparent');
+                if (link.dataset.id === articleId) {
+                    link.classList.add('article-active');
+                    link.classList.add('bg-gray-900/50');
+                }
+            });
+        }
+
+        function populateArticlesList() {
+            articles.forEach(article => {
+                articlesListDiv.innerHTML += `
+                    <a href="#" class="article-link block p-4 rounded-lg border-r-4 border-transparent hover:bg-gray-900/50 transition-colors" data-id="${article.id}">
+                        <h4 class="font-bold text-white">${article.title}</h4>
+                        <p class="text-sm text-gray-400 mt-1">${article.date}</p>
+                    </a>
+                `;
+            });
+        }
+
+        articlesListDiv.addEventListener('click', (e) => {
+            e.preventDefault();
+            const link = e.target.closest('.article-link');
+            if (link) {
+                displayArticle(link.dataset.id);
+            }
+        });
+
+        // Initial Load
+        populateArticlesList();
+        displayArticle(articles[0].id); // Display the first article by default
+    </script>
+</body>
+</html>

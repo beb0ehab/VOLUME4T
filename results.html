@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أرشيف التحليلات - Volume4T</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .glass-card {
+            background: rgba(25, 28, 36, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(45, 212, 191, 0.15) 0%, rgba(45, 212, 191, 0) 70%);
+            transform: translate(40%, -40%);
+            pointer-events: none;
+        }
+        .glass-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0) 70%); /* Blue glow */
+            transform: translate(-40%, 40%);
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-200">
+
+    <!-- Header -->
+    <header class="bg-black/30 backdrop-blur-xl sticky top-0 z-50 border-b border-gray-700/50">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-white">Volume4T<span class="text-teal-400">.</span></a>
+            <a href="index.html" class="flex items-center text-gray-300 hover:text-white transition-colors bg-white/5 hover:bg-white/10 px-4 py-2 rounded-full">
+                <span>العودة للرئيسية</span>
+                <i class="fas fa-arrow-left mr-2"></i>
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Page Title Section -->
+        <section class="py-20 text-center">
+            <div class="container mx-auto px-6">
+                <div class="text-teal-400 text-5xl mb-4">
+                    <i class="fas fa-chart-pie"></i>
+                </div>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-white">أرشيف التحليلات</h1>
+                <p class="mt-4 text-lg text-gray-400 max-w-2xl mx-auto">
+                    اختر السوق الذي ترغب في عرض تحليلاته السابقة.
+                </p>
+            </div>
+        </section>
+
+        <!-- Markets Section -->
+        <section class="py-20">
+            <div class="container mx-auto px-6 max-w-4xl">
+                <div class="grid md:grid-cols-2 gap-12">
+                    
+                    <!-- Saudi Market Card -->
+                    <a href="saudi-results.html" class="glass-card block p-8 text-center transform hover:-translate-y-2 transition-transform duration-300">
+                        <div class="w-32 h-20 rounded-lg overflow-hidden p-1 bg-white/10 border border-white/20 backdrop-blur-sm mb-6 mx-auto relative flag-container">
+                            <img src="https://flagcdn.com/w160/sa.png" alt="علم السعودية" class="w-full h-full object-cover rounded-md opacity-90 relative z-10">
+                        </div>
+                        <h2 class="text-3xl font-bold text-white mb-4">تحليلات السوق السعودي</h2>
+                        <p class="text-gray-300">تصفح أرشيف النتائج والتحليلات الخاصة بالأسهم السعودية.</p>
+                    </a>
+
+                    <!-- American Market Card -->
+                    <a href="american-results.html" class="glass-card block p-8 text-center transform hover:-translate-y-2 transition-transform duration-300">
+                         <div class="w-32 h-20 rounded-lg overflow-hidden p-1 bg-white/10 border border-white/20 backdrop-blur-sm mb-6 mx-auto relative flag-container">
+                            <img src="https://flagcdn.com/w160/us.png" alt="علم أمريكا" class="w-full h-full object-cover rounded-md opacity-90 relative z-10">
+                        </div>
+                        <h2 class="text-3xl font-bold text-white mb-4">تحليلات السوق الأمريكي</h2>
+                        <p class="text-gray-300">اطلع على نتائجنا وتحليلاتنا السابقة لأسهم السوق الأمريكي.</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-black/30 backdrop-blur-xl border-t border-gray-700/50">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-400">
+            <p>&copy; 2024 جميع الحقوق محفوظة | Volume4T.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

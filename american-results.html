@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحليلات السوق الأمريكي - Volume4T</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .glass-card {
+            background: rgba(25, 28, 36, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(45, 212, 191, 0.15) 0%, rgba(45, 212, 191, 0) 70%);
+            transform: translate(40%, -40%);
+            pointer-events: none;
+        }
+        .glass-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0) 70%); /* Blue glow */
+            transform: translate(-40%, 40%);
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-200">
+
+    <!-- Header -->
+    <header class="bg-black/30 backdrop-blur-xl sticky top-0 z-50 border-b border-gray-700/50">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-white">Volume4T<span class="text-teal-400">.</span></a>
+            <a href="results.html" class="flex items-center text-gray-300 hover:text-white transition-colors bg-white/5 hover:bg-white/10 px-4 py-2 rounded-full">
+                <span>العودة للأرشيف</span>
+                <i class="fas fa-arrow-left mr-2"></i>
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Page Title Section -->
+        <section class="py-20 text-center">
+            <div class="container mx-auto px-6">
+                <div class="text-teal-400 text-5xl mb-4">
+                    <i class="fas fa-search-dollar"></i>
+                </div>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-white">تحليلات السوق الأمريكي</h1>
+                <p class="mt-4 text-lg text-gray-400 max-w-2xl mx-auto">
+                    اختر نوع التحليلات التي ترغب في استعراضها.
+                </p>
+            </div>
+        </section>
+
+        <!-- Analysis Type Section -->
+        <section class="py-20">
+            <div class="container mx-auto px-6 max-w-4xl">
+                <div class="grid md:grid-cols-3 gap-12">
+                    
+                    <!-- Modaraba Card -->
+                    <a href="american-modaraba-results.html" class="glass-card block p-8 text-center transform hover:-translate-y-2 transition-transform duration-300">
+                        <div class="text-blue-400 text-5xl mb-6">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h2 class="text-3xl font-bold text-white mb-4">تحليلات المضاربة</h2>
+                        <p class="text-gray-300">توصيات يومية سريعة وصفقات قصيرة المدى.</p>
+                    </a>
+
+                    <!-- Swing Card -->
+                    <a href="american-swing-results.html" class="glass-card block p-8 text-center transform hover:-translate-y-2 transition-transform duration-300">
+                         <div class="text-purple-400 text-5xl mb-6">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h2 class="text-3xl font-bold text-white mb-4">تحليلات Swing</h2>
+                        <p class="text-gray-300">توصيات متوسطة المدى للاستفادة من تقلبات السوق.</p>
+                    </a>
+
+                    <!-- Investment Card -->
+                    <a href="american-investment-results.html" class="glass-card block p-8 text-center transform hover:-translate-y-2 transition-transform duration-300">
+                         <div class="text-green-400 text-5xl mb-6">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <h2 class="text-3xl font-bold text-white mb-4">تحليلات الاستثمار</h2>
+                        <p class="text-gray-300">توصيات طويلة الأمد مبنية على التحليل الأساسي.</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-black/30 backdrop-blur-xl border-t border-gray-700/50">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-400">
+            <p>&copy; 2024 جميع الحقوق محفوظة | Volume4T.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
